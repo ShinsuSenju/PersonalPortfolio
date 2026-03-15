@@ -3,17 +3,41 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Windows 7</title>
+    <title>Windows 7 Portfolio</title>
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
-    <div id="boot" class="screen active boot">
+    <div id="boot" class="screen active">
       <div class="boot-center">
         <div class="win-logo">
           <img src="logo.png" alt="Windows logo" />
         </div>
         <p class="boot-text">Starting Windows</p>
       </div>
+    </div>
+
+    <div id="login-screen" class="screen hidden">
+      <div class="login-content">
+        <div class="user-avatar">
+          <img src="user-icon.ico" alt="Guest User" />
+        </div>
+
+        <p class="user-name">Guest</p>
+
+        <div class="login-input-group">
+          <input
+            type="password"
+            class="login-input"
+            placeholder="Password"
+            id="password-field"
+          />
+          <button id="login-btn" class="blue-arrow-btn">➔</button>
+        </div>
+      </div>
+    </div>
+
+    <div id="desktop" class="screen hidden">
+      <h1 style="color: white">Welcome to the Desktop</h1>
     </div>
 
     <script src="app.js"></script>

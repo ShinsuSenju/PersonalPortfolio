@@ -10,7 +10,7 @@
     <div id="boot" class="screen active">
       <div class="boot-center">
         <div class="win-logo">
-          <img src="logo.png" alt="Windows logo" />
+          <img src="./images/logo.png" alt="Windows logo" />
         </div>
         <p class="boot-text">Starting Windows</p>
       </div>
@@ -19,7 +19,7 @@
     <div id="login-screen" class="screen hidden">
       <div class="login-content">
         <div class="user-avatar">
-          <img src="user-icon.ico" alt="Guest User" />
+          <img src="./images/user-icon.ico" alt="Guest User" />
         </div>
 
         <p class="user-name">Guest</p>
@@ -36,7 +36,7 @@
         <p id="password-hint" class="hidden"></p>
 
         <div id="wiki-card" class="hidden">
-          <img src="linus.jpg" alt="Linus Torvalds" class="wiki-img" />
+          <img src="./images/linus.jpg" alt="Linus Torvalds" class="wiki-img" />
           <div class="wiki-text">
             <h3>Linus Torvalds</h3>
             <p>
@@ -55,13 +55,98 @@
     <div id="welcome-screen" class="screen hidden">
       <div class="welcome-content">
         <div class="welcome-row">
-          <img src="busy.gif" alt="loading" class="busy-spinner" />
+          <img src="./images/busy.gif" alt="loading" class="busy-spinner" />
           <h2 class="welcome-text">Welcome</h2>
         </div>
       </div>
     </div>
     <div id="desktop" class="screen hidden">
-      <h1 style="color: white">Welcome to the Desktop</h1>
+      <div class="desktop-icons">
+        <div class="icon" data-app="computer">
+          <img src="./images/computer-icon.ico" alt="My Computer" />
+          <span>My Computer</span>
+        </div>
+        <div class="icon" data-app="recycle">
+          <img src="./images/recycle-icon.ico" alt="Recycle Bin" />
+          <span>Recycle Bin</span>
+        </div>
+        <div class="icon" data-app="usage">
+          <img src="./images/readme.ico" alt="Text File" />
+          <span>usage.txt</span>
+        </div>
+      </div>
+
+      <div id="taskbar">
+        <div class="taskbar-left">
+          <div id="start-button"></div>
+        </div>
+
+        <div class="taskbar-right">
+          <div class="tray-icons"></div>
+          <div id="datetime">
+            <span id="time-display"></span>
+            <span id="date-display"></span>
+          </div>
+          <div id="show-desktop-btn"></div>
+        </div>
+      </div>
+      <div id="start-menu">
+        <div class="start-left">
+          <div class="programs-list">
+            <div class="program-item" data-app="cmd">
+              <img src="./images/cmd.png" alt="CMD" />
+              <span>Command Prompt</span>
+            </div>
+            <div class="program-item" data-app="browser">
+              <img src="./images/internet.ico" alt="Web Browser" />
+              <span>Internet Explorer</span>
+            </div>
+            <div class="program-item" data-app="calculator">
+              <img src="./images/calc.png" alt="Calculator" />
+              <span>Calculator</span>
+            </div>
+          </div>
+
+          <div class="search-box">
+            <input type="text" placeholder="Search programs and files" />
+          </div>
+        </div>
+
+        <div class="start-right">
+          <div class="start-avatar" data-app="profile">
+            <img src="./images/user-avatar.ico" alt="Profile" />
+          </div>
+
+          <div class="system-links">
+            <div class="link-item" data-app="projects">Projects</div>
+            <div class="link-item" data-app="resume">Experience & Resume</div>
+            <hr />
+            <div
+              class="link-item external"
+              data-url="https://github.com/shinsusenju"
+            >
+              GitHub
+            </div>
+            <div
+              class="link-item external"
+              data-url="https://linkedin.com/in/senpaishane"
+            >
+              LinkedIn
+            </div>
+            <div
+              class="link-item external"
+              data-url="https://leetcode.com/senpaishane"
+            >
+              LeetCode
+            </div>
+            <hr />
+            <div class="shutdown-group">
+              <div class="shutdown-btn">Shut down</div>
+              <div class="shutdown-arrow">▶</div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
 
     <script src="app.js"></script>

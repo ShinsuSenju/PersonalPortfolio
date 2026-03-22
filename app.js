@@ -31,16 +31,18 @@ let isTauntActive = false;
 
 function attemptLogin() {
   const userGuess = passwordInput.value.toLowerCase().trim();
-
-  if (VALID_PASSWORDS.includes(userGuess.toLowerCase())) {
-    const audio = new Audio("startup.mp3");
-    audio.play().catch((e) => console.log("Audio Blocked"));
+  if (VALID_PASSWORDS.includes(userGuess)) {
     loginScreen.classList.add("hidden");
     welcomeScreen.classList.remove("hidden");
     setTimeout(() => {
       welcomeScreen.classList.add("hidden");
-      desktop.classList.remove("hidden");
+      const audio = new Audio("startup.mp3");
+      audio.play().catch((e) => console.log("Audio Blocked"));
+      setTimeout(() => {
+        desktop.classList.remove("hidden");
+      }, 500);
     }, 3000);
+
     return;
   }
 
@@ -86,4 +88,48 @@ passwordInput.addEventListener("keypress", (event) => {
   if (event.key === "Enter") {
     attemptLogin();
   }
+});
+
+// DESKTOP LOGIC
+
+//Clock Function
+function updateClock() {
+  const timeDisplay = document.getElementById("time-display");
+  const dateDisplay = document.getElementById("date-display");
+  if (!timeDisplay || !dateDisplay) return;
+  const now = new Date();
+  let hours = now.getHours();
+  let minutes = now.getMinutes();
+  const ampm = hours >= 12 ? "PM" : "AM";
+  hours = hours % 12;
+  hours = hours ? hours : 12;
+  minutes = minutes < 10 ? "0" + minutes : minutes;
+  const month = now.getMonth() + 1;
+  const day = now.getDate();
+  const year = now.getFullYear();
+  timeDisplay.innerText = `${hours}:${minutes} ${ampm}`;
+  dateDisplay.innerText = `${month}/${day}/${year}`;
+}
+updateClock();
+setInterval(updateClock, 10000);
+
+// START MENU
+const startBtn = document.getElementById("start-button");
+const startMenu = document.getElementById("start-menu");
+
+startBtn.addEventListener("click", (event) => {
+  event.stopPropagation();
+  startMenu.classList.toggle("show");
+});
+
+document.addEventListener("click", (event) => {
+  if (
+    startMenu.classList.contains("show") &&
+    !startMenu.contains(event.target)
+  ) {
+    startMenu.classList.remove("show");
+  }
+});
+startMenu.addEventListener("click", (event) => {
+  event.stopPropagation();
 });

@@ -25,7 +25,6 @@ html {
     visibility 1.5s;
 }
 
-/* We use visibility: hidden so the element stays in the DOM but doesn't block clicks */
 .hidden {
   opacity: 0;
   visibility: hidden;
@@ -147,13 +146,14 @@ html {
 }
 
 .blue-arrow-btn {
+  font-size: 25px;
   width: 34px;
   height: 34px;
   min-width: 34px;
   border-radius: 50%;
   position: relative;
   overflow: hidden;
-  border: 0.5px solid #535353;
+  border: 0.5px solid #5bb2e44a;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -161,20 +161,15 @@ html {
   color: white;
   background: linear-gradient(
     to bottom,
-    #cfeaf8 0%,
-    #65aac9 45%,
-    #3b90b5 45%,
+    #6bafd3d4 0%,
+    #88daff 45%,
+    #25a4db 45%,
     #5db3de 100%
   );
-
   box-shadow:
     inset 1px 1px 1px #fff,
-    0 0 5px rgba(0, 0, 0, 0.5);
-  transition:
-    filter 0.2s,
-    transform 0.1s;
+    inset 14px 0px 20px 1px rgb(107 193 255 / 68%);
 }
-
 .blue-arrow-btn::before {
   content: "";
   position: absolute;
@@ -198,10 +193,124 @@ html {
   position: relative;
   z-index: 2;
 }
-
 .blue-arrow-btn:hover {
   filter: brightness(1.1);
+
+  box-shadow:
+    0 0 15px rgba(0, 210, 255, 0.7),
+    inset 0 1px 1px white;
+  transition: transform 0.05s ease-in-out;
 }
+
 .blue-arrow-btn:active {
-  transform: scale(0.95);
+  transform: scale(0.92);
+
+  box-shadow:
+    0 0 5px rgba(0, 210, 255, 0.2),
+    inset 0 3px 5px rgba(148, 225, 246, 0);
+
+  transition: transform 0.01s ease-in-out;
+}
+
+#password-hint {
+  color: white;
+  font-size: 13px;
+  margin-top: 15px;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8);
+  font-style: italic;
+  opacity: 0;
+  transition: opacity 0.5s ease;
+}
+
+#password-hint.show {
+  opacity: 1;
+}
+
+@keyframes shake-error {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  25% {
+    transform: translateX(-5px);
+  }
+  75% {
+    transform: translateX(5px);
+  }
+}
+
+.input-error {
+  animation: shake-error 0.4s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
+  border-color: #ff4d4d !important;
+  box-shadow: 0 0 8px rgba(255, 77, 77, 0.6) !important;
+}
+
+#password-hint {
+  color: white;
+  font-size: 13px;
+  margin-top: 15px;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8);
+  font-style: italic;
+  opacity: 0;
+  transition:
+    opacity 0.5s ease,
+    color 0.3s ease;
+  text-align: center;
+  max-width: 250px;
+}
+
+#password-hint.show {
+  opacity: 1;
+}
+
+#wiki-card {
+  background: rgba(0, 0, 0, 0.5);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 8px;
+  padding: 12px;
+  margin-top: 20px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 280px;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.4);
+  opacity: 0;
+  transition: opacity 0.6s ease;
+}
+
+#wiki-card.show {
+  opacity: 1;
+}
+
+.wiki-img {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 1px solid #88daff;
+}
+
+.wiki-text h3 {
+  margin: 0 0 4px 0;
+  font-size: 15px;
+  color: white;
+}
+
+.wiki-text p {
+  margin: 0 0 6px 0;
+  font-size: 11px;
+  color: #ddd;
+  line-height: 1.3;
+}
+
+.wiki-text a {
+  color: #88daff;
+  text-decoration: none;
+  font-size: 11px;
+}
+
+.wiki-text a:hover {
+  text-decoration: underline;
 }

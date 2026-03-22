@@ -20,6 +20,7 @@ const passwordInput = document.querySelector(".login-input");
 const hintDisplay = document.getElementById("password-hint");
 const wikiCard = document.getElementById("wiki-card");
 const desktop = document.getElementById("desktop");
+const welcomeScreen = document.getElementById("welcome-screen");
 
 // Old: const SECRET_PASSWORD = "linus";
 
@@ -35,7 +36,11 @@ function attemptLogin() {
     const audio = new Audio("startup.mp3");
     audio.play().catch((e) => console.log("Audio Blocked"));
     loginScreen.classList.add("hidden");
-    desktop.classList.remove("hidden");
+    welcomeScreen.classList.remove("hidden");
+    setTimeout(() => {
+      welcomeScreen.classList.add("hidden");
+      desktop.classList.remove("hidden");
+    }, 3000);
     return;
   }
 
@@ -43,7 +48,7 @@ function attemptLogin() {
     passwordInput.value = "linus";
 
     hintDisplay.innerText = "There you go. Now hit the arrow to boot up.";
-    hintDisplay.style.color = "#88daff";
+    hintDisplay.style.color = "#ffffff";
 
     wikiCard.classList.remove("hidden");
     setTimeout(() => wikiCard.classList.add("show"), 10);

@@ -314,3 +314,47 @@ html {
 .wiki-text a:hover {
   text-decoration: underline;
 }
+
+#welcome-screen {
+  background: url("login_screen.jpg") no-repeat center center fixed;
+  background-size: cover;
+  z-index: 100;
+  cursor: none;
+}
+
+.welcome-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: -5vh;
+}
+
+.welcome-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.busy-spinner {
+  width: 40px;
+  height: 40px;
+  object-fit: contain;
+}
+
+.welcome-text {
+  color: white;
+  font-size: 26px;
+  font-weight: 300;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.6);
+}
+
+.welcome-footer {
+  position: absolute;
+  bottom: 60px;
+  width: 100%;
+  text-align: center;
+  color: white;
+  font-size: 18px;
+  text-shadow: 0 1px 2px black;
+  opacity: 0.8;
+}

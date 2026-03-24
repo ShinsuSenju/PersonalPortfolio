@@ -136,6 +136,12 @@ startMenu.addEventListener("click", (event) => {
 
 //Context Menu
 
+document.addEventListener("contextmenu", (e) => {
+  if (e.target.tagName !== "INPUT" && e.target.tagName !== "TEXTAREA") {
+    e.preventDefault();
+  }
+});
+
 const contextMenu = document.querySelector("#context-menu");
 
 desktop.addEventListener("contextmenu", (e) => {
@@ -262,10 +268,43 @@ document.getElementById("menu-linux").addEventListener("click", (e) => {
 });
 
 // Easter Egg 2: Hack Google
-document.getElementById("menu-hack").addEventListener("click", (e) => {
+const hackBtn = document.getElementById("menu-hack");
+const hackText = hackBtn.querySelector("a");
+let hackStep = 0;
+
+hackBtn.addEventListener("click", (e) => {
   e.preventDefault();
-  alert("Access granted. Initializing bypass protocol...");
-  closeContextMenu();
+
+  e.stopPropagation();
+
+  if (hackStep === 0) {
+    hackText.innerText = "Wait... are you sure?";
+    hackText.style.color = "#cc0000";
+    hackBtn.removeAttribute("aria-disabled");
+    hackStep = 1;
+  } else {
+    alert(
+      "BREACH DETECTED. GOOGLE CYBERSECURITY INBOUND... just kidding. Nice click!",
+    );
+    hackText.innerText = "Hack Google";
+    hackText.style.color = "";
+    hackBtn.setAttribute("aria-disabled", "true");
+    hackStep = 0;
+    document.getElementById("context-menu").style.display = "none";
+  }
+});
+document.addEventListener("click", (e) => {
+  const contextMenu = document.getElementById("context-menu");
+  if (e.target !== contextMenu && !contextMenu.contains(e.target)) {
+    contextMenu.style.display = "none";
+
+    if (hackStep === 1) {
+      hackText.innerText = "Hack Google";
+      hackText.style.color = "";
+      hackBtn.setAttribute("aria-disabled", "true");
+      hackStep = 0;
+    }
+  }
 });
 
 // Portfolio Link: View Source

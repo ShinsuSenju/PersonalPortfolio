@@ -374,6 +374,9 @@ html {
   background: url("./images/wallpaper.jpg") no-repeat center center fixed;
   background-size: cover;
   display: block;
+  transition:
+    background-image 0.8s ease-in-out,
+    background-color 0.8s ease-in-out;
 }
 
 .desktop-icons {
@@ -759,4 +762,61 @@ html {
     rgba(0, 0, 0, 0.05) 50%,
     rgba(0, 0, 0, 0.15) 100%
   );
+}
+
+/* Prevent blue selection  and dragging */
+html,
+body {
+  -webkit-user-select: none; /* Safari/Chrome */
+  -moz-user-select: none; /* Firefox */
+  -ms-user-select: none; /* IE10+ */
+  user-select: none; /* Standard */
+}
+
+img {
+  -webkit-user-drag: none;
+  pointer-events: none;
+}
+
+input,
+textarea {
+  -webkit-user-select: text;
+  -moz-user-select: text;
+  -ms-user-select: text;
+  user-select: text;
+}
+
+/* --- Context Menu --- */
+#context-menu {
+  position: absolute !important;
+  z-index: 99999 !important;
+  margin: 0;
+}
+
+.desktop-icons {
+  transition: opacity 0.1s ease-in-out;
+}
+
+.desktop-icons.large .icon {
+  width: 90px;
+}
+.desktop-icons.large .icon img {
+  width: 64px;
+  height: 64px;
+  margin-bottom: 5px;
+}
+.desktop-icons.large .icon span {
+  font-size: 13px;
+}
+
+.desktop-icons.small .icon {
+  width: 60px;
+}
+.desktop-icons.small .icon img {
+  width: 32px;
+  height: 32px;
+  margin-bottom: 2px;
+}
+.desktop-icons.small .icon span {
+  font-size: 10px;
 }

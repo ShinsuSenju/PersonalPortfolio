@@ -4,6 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Windows 7 Portfolio</title>
+    <link rel="stylesheet" href="7.css" />
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
@@ -61,6 +62,63 @@
       </div>
     </div>
     <div id="desktop" class="screen hidden">
+      <ul id="context-menu" role="menu" class="can-hover" style="display: none">
+        <li role="menuitem" tabindex="0" aria-haspopup="true">
+          View
+          <ul role="menu" style="width: 150px">
+            <li role="menuitem">
+              <input type="radio" name="icon-size" id="example15" />
+              <label for="example15">Large icons</label>
+            </li>
+            <li role="menuitem">
+              <input type="radio" name="icon-size" id="example16" checked="" />
+              <label for="example16">Medium icons</label>
+            </li>
+            <li role="menuitem" class="has-divider">
+              <input type="radio" name="icon-size" id="example17" />
+              <label for="example17">Small icons</label>
+            </li>
+          </ul>
+        </li>
+
+        <li role="menuitem" tabindex="0" aria-haspopup="true">
+          Sort by
+          <ul role="menu" style="width: 120px">
+            <li role="menuitem" id="sort-name"><a href="#menu">Name</a></li>
+            <li role="menuitem" id="sort-type">
+              <a href="#menu">Item type</a>
+            </li>
+          </ul>
+        </li>
+
+        <li role="menuitem" class="has-divider" id="menu-refresh">
+          <a href="#menu">Refresh</a>
+        </li>
+
+        <li role="menuitem" id="menu-linux">
+          <a href="#menu">Install Linux</a>
+        </li>
+        <li role="menuitem" class="has-divider" id="menu-hack">
+          <a href="#menu">Hack Google</a>
+        </li>
+
+        <li role="menuitem" id="menu-source">
+          <img src="https://img.icons8.com/color/18/000000/code.png" />
+          <a href="#menu">View Source Code</a>
+        </li>
+        <li role="menuitem" id="menu-projects">
+          <img
+            src="https://img.icons8.com/color/18/000000/folder-invoices--v1.png"
+          />
+          <a href="#menu">My Projects</a>
+        </li>
+        <li role="menuitem" id="menu-personalize">
+          <img
+            src="https://img.icons8.com/color/18/000000/remote-desktop.png"
+          />
+          <a href="#menu">Personalize</a>
+        </li>
+      </ul>
       <div class="desktop-icons">
         <div class="icon" data-app="computer">
           <img src="./images/computer-icon.ico" alt="My Computer" />
@@ -114,7 +172,7 @@
 
         <div class="start-right">
           <div class="start-avatar" data-app="profile">
-            <img src="./images/user-avatar.ico" alt="Profile" />
+            <img src="./images/user-icon.ico" alt="Profile" />
           </div>
 
           <div class="system-links">

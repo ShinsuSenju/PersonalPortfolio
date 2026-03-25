@@ -825,3 +825,20 @@ textarea {
 .desktop-icons.small .icon span {
   font-size: 10px;
 }
+
+/* desktop window */
+
+.window {
+  transition:
+    opacity 0.15s ease-out,
+    visibility 0.15s ease-out;
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+}
+
+.window-closed {
+  opacity: 0 !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
+}

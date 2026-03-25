@@ -62,7 +62,30 @@
       </div>
     </div>
     <div id="desktop" class="screen hidden">
-      <ul id="context-menu" role="menu" class="can-hover" style="display: none">
+      <div class="background">
+        <div
+          class="window glass active window-closed"
+          id="projects-window"
+          style="width: 450px; position: absolute; top: 20%; left: 20%"
+        >
+          <div class="title-bar">
+            <div class="title-bar-text">My Projects</div>
+            <div class="title-bar-controls">
+              <button aria-label="Minimize" class="titlebar-min"></button>
+              <button aria-label="Maximize" class="titlebar-max"></button>
+              <button aria-label="Close" class="titlebar-close"></button>
+            </div>
+          </div>
+          <div class="window-body has-space">
+            <p>Here are some things I built while escaping Tutorial Hell:</p>
+            <ul>
+              <li>My Portfolio Website</li>
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <ul id="context-menu" role="menu" style="display: none">
         <li role="menuitem" tabindex="0" aria-haspopup="true">
           View
           <ul role="menu" style="width: 150px">

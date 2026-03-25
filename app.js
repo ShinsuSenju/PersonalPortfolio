@@ -169,17 +169,17 @@ desktop.addEventListener("contextmenu", (e) => {
   contextMenu.style.top = `${mouseY}px`;
 });
 
-document.addEventListener("click", (e) => {
-  if (e.target !== contextMenu && !contextMenu.contains(e.target)) {
-    contextMenu.style.display = "none";
-  }
-});
-
 const desktopIconsContainer = document.querySelector(".desktop-icons");
 
 function closeContextMenu() {
   document.getElementById("context-menu").style.display = "none";
 }
+
+document.addEventListener("click", (e) => {
+  if (e.target !== contextMenu && !contextMenu.contains(e.target)) {
+    closeContextMenu();
+  }
+});
 
 document.getElementById("example15").addEventListener("change", () => {
   desktopIconsContainer.className = "desktop-icons large";
@@ -315,8 +315,56 @@ document.getElementById("menu-source").addEventListener("click", (e) => {
 });
 
 // Portfolio Link: My Projects
-document.getElementById("menu-projects").addEventListener("click", (e) => {
-  e.preventDefault();
-  alert("Opening Projects Window... (Coming Soon!)");
-  closeContextMenu();
+// document.getElementById("menu-projects").addEventListener("click", (e) => {
+//   e.preventDefault();
+//   alert("Opening Projects Window... (Coming Soon!)");
+//   closeContextMenu();
+// });
+
+//windows
+let highestZIndex = 100;
+
+function focusWindow(windowElement) {
+  highestZIndex++;
+  windowElement.style.zIndex = highestZIndex;
+  document.querySelectorAll(".window").forEach((win) => {
+    win.classList.remove("active");
+  });
+  windowElement.classList.add("active");
+}
+
+function openWindow(windowId) {
+  const win = document.getElementById(windowId);
+  if (win) {
+    win.classList.remove("window-closed");
+    focusWindow(win);
+  }
+}
+
+//my projects from context menu
+
+const projectsBtn = document.getElementById("menu-projects");
+if (projectsBtn) {
+  projectsBtn.addEventListener("click", (e) => {
+    e.preventDefault();
+    openWindow("projects-window");
+    closeContextMenu();
+  });
+}
+
+//close btn title bar
+document.querySelectorAll(".titlebar-close").forEach((btn) => {
+  btn.addEventListener("click", (e) => {
+    const parentWindow = e.target.closest(".window");
+    if (parentWindow) {
+      parentWindow.classList.add("window-closed");
+    }
+  });
+});
+
+// focus window
+document.querySelectorAll(".window").forEach((win) => {
+  win.addEventListener("mousedown", () => {
+    focusWindow(win);
+  });
 });

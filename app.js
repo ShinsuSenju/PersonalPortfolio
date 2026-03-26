@@ -368,3 +368,74 @@ document.querySelectorAll(".window").forEach((win) => {
     focusWindow(win);
   });
 });
+
+//defocus
+desktop.addEventListener("mousedown", (e) => {
+  if (e.target.id === "desktop") {
+    document.querySelectorAll(".window").forEach((win) => {
+      win.classList.remove("active");
+    });
+  }
+});
+
+//maximize
+document.querySelectorAll(".titlebar-max").forEach((btn) => {
+  btn.addEventListener("click", (e) => {
+    const parentWindow = e.target.closest(".window");
+    if (parentWindow) {
+      parentWindow.classList.toggle("maximized");
+    }
+  });
+});
+
+document.querySelectorAll(".title-bar").forEach((bar) => {
+  bar.addEventListener("dblclick", (e) => {
+    if (e.target.closest(".title-bar-controls")) return;
+    const parentWindow = e.target.closest(".window");
+    if (parentWindow) {
+      parentWindow.classList.toggle("maximized");
+    }
+  });
+});
+
+//dragging and grab logic
+document.querySelectorAll(".window").forEach((win) => {
+  const titleBar = win.querySelector(".title-bar");
+
+  let isDragging = false;
+  let offsetX = 0;
+  let offsetY = 0;
+
+  //grab
+  titleBar.addEventListener("mousedown", (e) => {
+    const rect = win.getBoundingClientRect();
+    isDragging = true;
+    win.classList.add("dragging");
+    offsetX = e.clientX - rect.left;
+    offsetY = e.clientY - rect.top;
+    focusWindow(win);
+  });
+
+  //drag
+  document.addEventListener("mousemove", (e) => {
+    if (!isDragging) return;
+
+    if (win.classList.contains("maximized")) {
+      win.classList.remove("maximized");
+      const rect = win.getBoundingClientRect();
+      offsetX = rect.width / 2;
+      offSetY = 15;
+    }
+    const newX = e.clientX - offsetX;
+    const newY = e.clientY - offsetY;
+
+    win.style.left = `${newX}px`;
+    win.style.top = `${newY}px`;
+  });
+
+  //release
+  document.addEventListener("mouseup", () => {
+    isDragging = false;
+    win.classList.remove("dragging");
+  });
+});

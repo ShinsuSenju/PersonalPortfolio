@@ -327,17 +327,32 @@ let highestZIndex = 100;
 function focusWindow(windowElement) {
   highestZIndex++;
   windowElement.style.zIndex = highestZIndex;
-  document.querySelectorAll(".window").forEach((win) => {
-    win.classList.remove("active");
-  });
+  document
+    .querySelectorAll(".window")
+    .forEach((win) => win.classList.remove("active"));
+  document
+    .querySelectorAll(".aero-taskbar-icon")
+    .forEach((icon) => icon.classList.remove("app-active"));
   windowElement.classList.add("active");
+  const baseName = windowElement.id.replace("-window", "");
+  const activeIcon = document.getElementById(`taskbar-${baseName}`);
+  if (activeIcon) {
+    activeIcon.classList.add("app-active");
+  }
 }
 
 function openWindow(windowId) {
   const win = document.getElementById(windowId);
   if (win) {
     win.classList.remove("window-closed");
+    win.classList.remove("minimized");
     focusWindow(win);
+  }
+
+  const baseName = windowId.replace("-window", "");
+  const taskbarBtn = document.getElementById(`taskbar-${baseName}`);
+  if (taskbarBtn) {
+    taskbarBtn.style.display = "flex";
   }
 }
 
@@ -358,6 +373,11 @@ document.querySelectorAll(".titlebar-close").forEach((btn) => {
     const parentWindow = e.target.closest(".window");
     if (parentWindow) {
       parentWindow.classList.add("window-closed");
+      const baseName = parentWindow.id.replace("-window", "");
+      const taskbarBtn = document.getElementById(`taskbar-${baseName}`);
+      if (taskbarBtn) {
+        taskbarBtn.style.display = "none";
+      }
     }
   });
 });
@@ -397,6 +417,38 @@ document.querySelectorAll(".title-bar").forEach((bar) => {
     }
   });
 });
+
+//minimize
+const windowProjects = document.getElementById("projects-window");
+const taskBarProjectsBtn = document.getElementById("taskbar-projects");
+
+document.querySelectorAll(".titlebar-min").forEach((btn) => {
+  btn.addEventListener("click", (e) => {
+    const parentWindow = e.target.closest(".window");
+    if (parentWindow) {
+      parentWindow.classList.add("minimized");
+      parentWindow.classList.remove("active");
+    }
+  });
+});
+
+if (taskBarProjectsBtn) {
+  taskBarProjectsBtn.addEventListener("click", () => {
+    if (windowProjects.classList.contains("window-closed")) {
+      windowProjects.classList.remove("window-closed");
+      windowProjects.classList.remove("minimized");
+      focusWindow(windowProjects);
+    } else if (windowProjects.classList.contains("minimized")) {
+      windowProjects.classList.remove("minimized");
+      focusWindow(windowProjects);
+    } else if (!windowProjects.classList.contains("active")) {
+      focusWindow(windowProjects);
+    } else {
+      windowProjects.classList.add("minimized");
+      windowProjects.classList.remove("active");
+    }
+  });
+}
 
 //dragging and grab logic
 document.querySelectorAll(".window").forEach((win) => {

@@ -514,6 +514,77 @@ html {
   background: rgba(255, 255, 255, 0.2);
 }
 
+/* taskar icons */
+
+.aero-taskbar-icon {
+  width: 50px;
+  height: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 3px;
+  border: 1px solid transparent;
+  position: relative;
+  cursor: pointer;
+  transition: all 0.15s ease-out;
+}
+
+.aero-taskbar-icon img {
+  width: 24px;
+  height: 24px;
+}
+
+.aero-taskbar-icon:hover {
+  background: rgba(255, 255, 255, 0.15);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  box-shadow: inset 0 0 10px rgba(255, 255, 255, 0.4);
+}
+
+.aero-taskbar-icon.app-active {
+  background: rgba(255, 255, 255, 0.25);
+  border: 1px solid rgba(255, 255, 255, 0.4);
+
+  box-shadow: inset 0 -5px 15px rgba(90, 176, 235, 0.4);
+}
+
+.aero-peek {
+  position: absolute;
+  bottom: 50px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 140px;
+  height: 100px;
+  background: rgba(20, 20, 20, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 5px;
+  display: flex;
+  flex-direction: column;
+  padding: 5px;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.2s ease-out;
+  pointer-events: none;
+}
+
+.aero-taskbar-icon:hover .aero-peek {
+  opacity: 1;
+  visibility: visible;
+}
+
+.peek-title {
+  color: white;
+  font-size: 11px;
+  text-align: left;
+  margin-bottom: 5px;
+  font-family: "Segoe UI", sans-serif;
+}
+
+.peek-thumb {
+  flex-grow: 1;
+  background: white;
+  border-radius: 2px;
+}
+
 #start-menu {
   position: absolute;
   bottom: 39px;
@@ -832,7 +903,9 @@ textarea {
   transition:
     opacity 0.15s ease-out,
     visibility 0.15s ease-out,
-    box-shadow 0.2s ease-out;
+    box-shadow 0.2s ease-out,
+    transform 0.1s ease-out,
+    all 0.2s ease;
 
   opacity: 1;
   visibility: visible;
@@ -871,4 +944,15 @@ textarea {
 .window.maximized .window-body {
   flex-grow: 1 !important;
   height: auto !important;
+}
+
+.window.minimized {
+  opacity: 0 !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
+  transform: translateY(50px) scale(0.9) !important;
+}
+
+button:focus {
+  outline: none;
 }

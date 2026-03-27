@@ -550,39 +550,60 @@ html {
 .aero-peek {
   position: absolute;
   bottom: 50px;
-  left: 50%;
+  left: 80%;
   transform: translateX(-50%);
-  width: 140px;
-  height: 100px;
+  width: 180px;
+  height: 120px;
   background: rgba(20, 20, 20, 0.6);
   border: 1px solid rgba(255, 255, 255, 0.3);
   border-radius: 5px;
   display: flex;
   flex-direction: column;
-  padding: 5px;
+  padding: 8px;
   opacity: 0;
   visibility: hidden;
   transition: opacity 0.2s ease-out;
   pointer-events: none;
 }
-
 .aero-taskbar-icon:hover .aero-peek {
   opacity: 1;
   visibility: visible;
 }
 
-.peek-title {
+/* .peek-title {
   color: white;
   font-size: 11px;
   text-align: left;
   margin-bottom: 5px;
   font-family: "Segoe UI", sans-serif;
+} */
+
+.window-clone .title-bar {
+  flex-shrink: 0 !important;
+}
+.window-clone .window-body {
+  flex-grow: 1 !important;
+  height: auto !important;
+  margin: 0 !important;
+  overflow: hidden !important;
 }
 
 .peek-thumb {
   flex-grow: 1;
-  background: white;
-  border-radius: 2px;
+  background: transparent;
+  position: relative;
+  overflow: hidden;
+  margin-top: 2px;
+  display: block;
+}
+
+.peek-thumb .window-clone {
+  position: relative !important;
+  top: auto !important;
+  left: auto !important;
+  margin: 0 !important;
+  box-shadow: none !important;
+  transform-origin: center !important;
 }
 
 #start-menu {
@@ -904,8 +925,8 @@ textarea {
     opacity 0.15s ease-out,
     visibility 0.15s ease-out,
     box-shadow 0.2s ease-out,
-    transform 0.1s ease-out,
-    all 0.2s ease;
+    transform 0.1s ease-out;
+  /* all 0.2s ease; */
 
   opacity: 1;
   visibility: visible;

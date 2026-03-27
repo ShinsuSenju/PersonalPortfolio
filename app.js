@@ -108,7 +108,7 @@ function updateClock() {
   const day = now.getDate();
   const year = now.getFullYear();
   timeDisplay.innerText = `${hours}:${minutes} ${ampm}`;
-  dateDisplay.innerText = `${month}/${day}/${year}`;
+  dateDisplay.innerText = `${day}/${month}/${year}`;
 }
 updateClock();
 setInterval(updateClock, 10000);
@@ -421,6 +421,7 @@ document.querySelectorAll(".title-bar").forEach((bar) => {
 //minimize
 const windowProjects = document.getElementById("projects-window");
 const taskBarProjectsBtn = document.getElementById("taskbar-projects");
+const projectsPeekThumb = taskBarProjectsBtn.querySelector(".peek-thumb");
 
 document.querySelectorAll(".titlebar-min").forEach((btn) => {
   btn.addEventListener("click", (e) => {
@@ -447,6 +448,51 @@ if (taskBarProjectsBtn) {
       windowProjects.classList.add("minimized");
       windowProjects.classList.remove("active");
     }
+  });
+
+  //thumbnail
+
+  taskBarProjectsBtn.addEventListener("mouseenter", () => {
+    projectsPeekThumb.innerHTML = "";
+
+    const freshClone = windowProjects.cloneNode(true);
+    freshClone.removeAttribute("id");
+    freshClone.classList.add("window-clone");
+
+    freshClone.classList.remove(
+      "minimized",
+      "window-closed",
+      // "active",
+      "maximized",
+      "dragging",
+    );
+
+    const fixedWidth = 600;
+    const fixedHeight = 400;
+
+    const thumbWidth = projectsPeekThumb.clientWidth;
+
+    const exactScale = thumbWidth / fixedWidth;
+
+    freshClone.style.cssText = `
+      position: absolute !important;
+      top: 50% !important;
+      left: 50% !important;
+      width: ${fixedWidth}px !important;
+      height: ${fixedHeight}px !important;
+      max-width: none !important;
+      max-height: none !important;
+      margin: 0 !important;
+      transform-origin: center !important;
+      transform: translate(-50%, -50%) scale(${exactScale}) !important;
+      pointer-events: none !important;
+      
+     
+      display: flex !important; 
+      flex-direction: column !important;
+    `;
+
+    projectsPeekThumb.appendChild(freshClone);
   });
 }
 
@@ -476,7 +522,7 @@ document.querySelectorAll(".window").forEach((win) => {
       win.classList.remove("maximized");
       const rect = win.getBoundingClientRect();
       offsetX = rect.width / 2;
-      offSetY = 15;
+      offsetY = 15;
     }
     const newX = e.clientX - offsetX;
     const newY = e.clientY - offsetY;

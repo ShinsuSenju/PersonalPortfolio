@@ -42,19 +42,15 @@ function attemptLogin() {
         desktop.classList.remove("hidden");
       }, 500);
     }, 3000);
-
     return;
   }
 
   if (isTauntActive) {
     passwordInput.value = "linus";
-
     hintDisplay.innerText = "There you go. Now hit the arrow to boot up.";
     hintDisplay.style.color = "#ffffff";
-
     wikiCard.classList.remove("hidden");
     setTimeout(() => wikiCard.classList.add("show"), 10);
-
     isTauntActive = false;
     return;
   }
@@ -91,6 +87,12 @@ passwordInput.addEventListener("keypress", (event) => {
 });
 
 // DESKTOP LOGIC
+
+const desktopIconsContainer = document.querySelector(".desktop-icons");
+const desktopIconsList = document.querySelectorAll(".icon");
+const gridWidth = 76;
+const gridHeight = 85;
+const edgeOffset = 10;
 
 //Clock Function
 function updateClock() {
@@ -134,88 +136,132 @@ startMenu.addEventListener("click", (event) => {
   event.stopPropagation();
 });
 
-//Context Menu
+//windows
+let highestZIndex = 100;
 
+function focusWindow(windowElement) {
+  highestZIndex++;
+  windowElement.style.zIndex = highestZIndex;
+  document
+    .querySelectorAll(".window")
+    .forEach((win) => win.classList.remove("active"));
+  document
+    .querySelectorAll(".aero-taskbar-icon")
+    .forEach((icon) => icon.classList.remove("app-active"));
+
+  windowElement.classList.add("active");
+  const baseName = windowElement.id.replace("-window", "");
+  const activeIcon = document.getElementById(`taskbar-${baseName}`);
+  if (activeIcon) {
+    activeIcon.classList.add("app-active");
+  }
+}
+
+function openWindow(windowId) {
+  const win = document.getElementById(windowId);
+  if (win) {
+    win.classList.remove("window-closed", "minimized");
+    focusWindow(win);
+  }
+  const baseName = windowId.replace("-window", "");
+  const taskbarBtn = document.getElementById(`taskbar-${baseName}`);
+  if (taskbarBtn) {
+    taskbarBtn.style.display = "flex";
+  }
+}
+
+//Context Menu
 document.addEventListener("contextmenu", (e) => {
   if (e.target.tagName !== "INPUT" && e.target.tagName !== "TEXTAREA") {
     e.preventDefault();
   }
 });
 
-const contextMenu = document.querySelector("#context-menu");
+const desktopMenu = document.getElementById("context-menu");
+const iconMenu = document.getElementById("icon-context-menu");
+let activeIcon = null;
 
-desktop.addEventListener("contextmenu", (e) => {
+function closeAllMenus() {
+  desktopMenu.style.display = "none";
+  iconMenu.style.display = "none";
+}
+
+function openContextMenu(menuElement, e) {
   e.preventDefault();
-
-  contextMenu.style.display = "block";
+  closeAllMenus();
+  menuElement.style.display = "block";
 
   let mouseX = e.clientX;
   let mouseY = e.clientY;
-
-  const menuWidth = contextMenu.offsetWidth;
-  const menuHeight = contextMenu.offsetHeight;
+  const menuWidth = menuElement.offsetWidth;
+  const menuHeight = menuElement.offsetHeight;
   const windowWidth = window.innerWidth;
   const windowHeight = window.innerHeight;
 
-  if (mouseX + menuWidth > windowWidth) {
-    mouseX = windowWidth - menuWidth;
-  }
+  if (mouseX + menuWidth > windowWidth) mouseX = windowWidth - menuWidth;
+  if (mouseY + menuHeight > windowHeight - 40)
+    mouseY = windowHeight - 40 - menuHeight;
 
-  if (mouseY + menuHeight > windowHeight) {
-    mouseY = windowHeight - menuHeight;
-  }
-
-  contextMenu.style.left = `${mouseX}px`;
-  contextMenu.style.top = `${mouseY}px`;
-});
-
-const desktopIconsContainer = document.querySelector(".desktop-icons");
-
-function closeContextMenu() {
-  document.getElementById("context-menu").style.display = "none";
+  menuElement.style.left = `${mouseX}px`;
+  menuElement.style.top = `${mouseY}px`;
 }
 
+desktop.addEventListener("contextmenu", (e) => {
+  if (e.target === desktop || e.target.classList.contains("desktop-icons")) {
+    activeIcon = null;
+    openContextMenu(desktopMenu, e);
+  }
+});
+
+//icon context menu
+desktopIconsList.forEach((icon) => {
+  icon.addEventListener("contextmenu", (e) => {
+    e.stopPropagation();
+    activeIcon = icon;
+    openContextMenu(iconMenu, e);
+  });
+});
+
 document.addEventListener("click", (e) => {
-  if (e.target !== contextMenu && !contextMenu.contains(e.target)) {
-    closeContextMenu();
+  if (e.button === 0) {
+    const clickedDesktopMenu = e.target.closest("#context-menu");
+    const clickedIconMenu = e.target.closest("#icon-context-menu");
+    if (!clickedDesktopMenu && !clickedIconMenu) {
+      closeAllMenus();
+    }
   }
 });
 
 document.getElementById("example15").addEventListener("change", () => {
   desktopIconsContainer.className = "desktop-icons large";
-  closeContextMenu();
+  closeAllMenus();
 });
-
 document.getElementById("example16").addEventListener("change", () => {
   desktopIconsContainer.className = "desktop-icons";
-  closeContextMenu();
+  closeAllMenus();
 });
-
 document.getElementById("example17").addEventListener("change", () => {
   desktopIconsContainer.className = "desktop-icons small";
-  closeContextMenu();
+  closeAllMenus();
 });
 
 document.getElementById("menu-refresh").addEventListener("click", (e) => {
   e.preventDefault();
   const icons = document.querySelectorAll(".desktop-icons .icon");
-
   icons.forEach((icon) => (icon.style.opacity = "0"));
-
   setTimeout(() => {
     icons.forEach((icon) => (icon.style.opacity = "1"));
   }, 150);
-
-  closeContextMenu();
+  closeAllMenus();
 });
 
 // Sorting
-
 function sortDesktopIcons(criterion) {
-  const iconsArray = Array.from(desktopIconsContainer.children);
+  const iconsArray = Array.from(
+    document.querySelectorAll(".desktop-icons .icon"),
+  );
   iconsArray.sort((a, b) => {
     if (criterion === "name") {
-      // Alphabetical sort (A to Z)
       const textA = a.querySelector("span").innerText.toLowerCase();
       const textB = b.querySelector("span").innerText.toLowerCase();
       return textA.localeCompare(textB);
@@ -224,20 +270,25 @@ function sortDesktopIcons(criterion) {
     }
   });
 
-  iconsArray.forEach((icon) => desktopIconsContainer.appendChild(icon));
+  iconsArray.forEach((icon, index) => {
+    icon.style.left = `${edgeOffset}px`;
+    icon.style.top = `${edgeOffset + index * gridHeight}px`;
+    desktopIconsContainer.appendChild(icon);
+  });
 }
 
 document.getElementById("sort-name").addEventListener("click", (e) => {
   e.preventDefault();
   sortDesktopIcons("name");
-  document.getElementById("context-menu").style.display = "none";
+  closeAllMenus();
 });
 
 document.getElementById("sort-type").addEventListener("click", (e) => {
   e.preventDefault();
   sortDesktopIcons("type");
-  document.getElementById("context-menu").style.display = "none";
+  closeAllMenus();
 });
+
 const wallpapers = [
   "url('./images/wallpaper.jpg')",
   "url('./images/wallpaper1.jpg')",
@@ -251,11 +302,9 @@ document.getElementById("menu-personalize").addEventListener("click", (e) => {
   e.preventDefault();
   currentWallpaper++;
   if (currentWallpaper >= wallpapers.length) currentWallpaper = 0;
-
   desktop.style.backgroundImage = wallpapers[currentWallpaper];
   desktop.style.backgroundSize = "cover";
-
-  closeContextMenu();
+  closeAllMenus();
 });
 
 // Easter Egg 1: Callback to the login screen joke
@@ -264,7 +313,7 @@ document.getElementById("menu-linux").addEventListener("click", (e) => {
   alert(
     "Error 404: Linux ISO not found. I guess we are stuck with Windows 7 for now.",
   );
-  closeContextMenu();
+  closeAllMenus();
 });
 
 // Easter Egg 2: Hack Google
@@ -274,7 +323,6 @@ let hackStep = 0;
 
 hackBtn.addEventListener("click", (e) => {
   e.preventDefault();
-
   e.stopPropagation();
 
   if (hackStep === 0) {
@@ -290,20 +338,7 @@ hackBtn.addEventListener("click", (e) => {
     hackText.style.color = "";
     hackBtn.setAttribute("aria-disabled", "true");
     hackStep = 0;
-    document.getElementById("context-menu").style.display = "none";
-  }
-});
-document.addEventListener("click", (e) => {
-  const contextMenu = document.getElementById("context-menu");
-  if (e.target !== contextMenu && !contextMenu.contains(e.target)) {
-    contextMenu.style.display = "none";
-
-    if (hackStep === 1) {
-      hackText.innerText = "Hack Google";
-      hackText.style.color = "";
-      hackBtn.setAttribute("aria-disabled", "true");
-      hackStep = 0;
-    }
+    closeAllMenus();
   }
 });
 
@@ -311,7 +346,7 @@ document.addEventListener("click", (e) => {
 document.getElementById("menu-source").addEventListener("click", (e) => {
   e.preventDefault();
   window.open("https://github.com/ShinsuSenju/PersonalPortfolio", "_blank");
-  closeContextMenu();
+  closeAllMenus();
 });
 
 // Portfolio Link: My Projects
@@ -321,49 +356,13 @@ document.getElementById("menu-source").addEventListener("click", (e) => {
 //   closeContextMenu();
 // });
 
-//windows
-let highestZIndex = 100;
-
-function focusWindow(windowElement) {
-  highestZIndex++;
-  windowElement.style.zIndex = highestZIndex;
-  document
-    .querySelectorAll(".window")
-    .forEach((win) => win.classList.remove("active"));
-  document
-    .querySelectorAll(".aero-taskbar-icon")
-    .forEach((icon) => icon.classList.remove("app-active"));
-  windowElement.classList.add("active");
-  const baseName = windowElement.id.replace("-window", "");
-  const activeIcon = document.getElementById(`taskbar-${baseName}`);
-  if (activeIcon) {
-    activeIcon.classList.add("app-active");
-  }
-}
-
-function openWindow(windowId) {
-  const win = document.getElementById(windowId);
-  if (win) {
-    win.classList.remove("window-closed");
-    win.classList.remove("minimized");
-    focusWindow(win);
-  }
-
-  const baseName = windowId.replace("-window", "");
-  const taskbarBtn = document.getElementById(`taskbar-${baseName}`);
-  if (taskbarBtn) {
-    taskbarBtn.style.display = "flex";
-  }
-}
-
 //my projects from context menu
-
 const projectsBtn = document.getElementById("menu-projects");
 if (projectsBtn) {
   projectsBtn.addEventListener("click", (e) => {
     e.preventDefault();
     openWindow("projects-window");
-    closeContextMenu();
+    closeAllMenus();
   });
 }
 
@@ -384,17 +383,15 @@ document.querySelectorAll(".titlebar-close").forEach((btn) => {
 
 // focus window
 document.querySelectorAll(".window").forEach((win) => {
-  win.addEventListener("mousedown", () => {
-    focusWindow(win);
-  });
+  win.addEventListener("mousedown", () => focusWindow(win));
 });
 
 //defocus
 desktop.addEventListener("mousedown", (e) => {
   if (e.target.id === "desktop") {
-    document.querySelectorAll(".window").forEach((win) => {
-      win.classList.remove("active");
-    });
+    document
+      .querySelectorAll(".window")
+      .forEach((win) => win.classList.remove("active"));
   }
 });
 
@@ -402,9 +399,7 @@ desktop.addEventListener("mousedown", (e) => {
 document.querySelectorAll(".titlebar-max").forEach((btn) => {
   btn.addEventListener("click", (e) => {
     const parentWindow = e.target.closest(".window");
-    if (parentWindow) {
-      parentWindow.classList.toggle("maximized");
-    }
+    if (parentWindow) parentWindow.classList.toggle("maximized");
   });
 });
 
@@ -412,17 +407,11 @@ document.querySelectorAll(".title-bar").forEach((bar) => {
   bar.addEventListener("dblclick", (e) => {
     if (e.target.closest(".title-bar-controls")) return;
     const parentWindow = e.target.closest(".window");
-    if (parentWindow) {
-      parentWindow.classList.toggle("maximized");
-    }
+    if (parentWindow) parentWindow.classList.toggle("maximized");
   });
 });
 
 //minimize
-const windowProjects = document.getElementById("projects-window");
-const taskBarProjectsBtn = document.getElementById("taskbar-projects");
-const projectsPeekThumb = taskBarProjectsBtn.querySelector(".peek-thumb");
-
 document.querySelectorAll(".titlebar-min").forEach((btn) => {
   btn.addEventListener("click", (e) => {
     const parentWindow = e.target.closest(".window");
@@ -433,45 +422,48 @@ document.querySelectorAll(".titlebar-min").forEach((btn) => {
   });
 });
 
-if (taskBarProjectsBtn) {
-  taskBarProjectsBtn.addEventListener("click", () => {
-    if (windowProjects.classList.contains("window-closed")) {
-      windowProjects.classList.remove("window-closed");
-      windowProjects.classList.remove("minimized");
-      focusWindow(windowProjects);
-    } else if (windowProjects.classList.contains("minimized")) {
-      windowProjects.classList.remove("minimized");
-      focusWindow(windowProjects);
-    } else if (!windowProjects.classList.contains("active")) {
-      focusWindow(windowProjects);
+document.querySelectorAll(".aero-taskbar-icon").forEach((taskbarBtn) => {
+  taskbarBtn.addEventListener("click", () => {
+    const baseName = taskbarBtn.id.replace("taskbar-", "");
+    const targetWindow = document.getElementById(`${baseName}-window`);
+
+    if (!targetWindow) return;
+
+    if (targetWindow.classList.contains("window-closed")) {
+      targetWindow.classList.remove("window-closed", "minimized");
+      focusWindow(targetWindow);
+    } else if (targetWindow.classList.contains("minimized")) {
+      targetWindow.classList.remove("minimized");
+      focusWindow(targetWindow);
+    } else if (!targetWindow.classList.contains("active")) {
+      focusWindow(targetWindow);
     } else {
-      windowProjects.classList.add("minimized");
-      windowProjects.classList.remove("active");
+      targetWindow.classList.add("minimized");
+      targetWindow.classList.remove("active");
     }
   });
 
-  //thumbnail
+  taskbarBtn.addEventListener("mouseenter", () => {
+    const baseName = taskbarBtn.id.replace("taskbar-", "");
+    const targetWindow = document.getElementById(`${baseName}-window`);
+    const peekThumb = taskbarBtn.querySelector(".peek-thumb");
 
-  taskBarProjectsBtn.addEventListener("mouseenter", () => {
-    projectsPeekThumb.innerHTML = "";
+    if (!targetWindow || !peekThumb) return;
 
-    const freshClone = windowProjects.cloneNode(true);
+    peekThumb.innerHTML = "";
+    const freshClone = targetWindow.cloneNode(true);
     freshClone.removeAttribute("id");
     freshClone.classList.add("window-clone");
-
     freshClone.classList.remove(
       "minimized",
       "window-closed",
-      // "active",
       "maximized",
       "dragging",
     );
 
     const fixedWidth = 600;
     const fixedHeight = 400;
-
-    const thumbWidth = projectsPeekThumb.clientWidth;
-
+    const thumbWidth = peekThumb.clientWidth;
     const exactScale = thumbWidth / fixedWidth;
 
     freshClone.style.cssText = `
@@ -486,20 +478,16 @@ if (taskBarProjectsBtn) {
       transform-origin: center !important;
       transform: translate(-50%, -50%) scale(${exactScale}) !important;
       pointer-events: none !important;
-      
-     
-      display: flex !important; 
+      display: flex !important;
       flex-direction: column !important;
     `;
-
-    projectsPeekThumb.appendChild(freshClone);
+    peekThumb.appendChild(freshClone);
   });
-}
+});
 
 //dragging and grab logic
 document.querySelectorAll(".window").forEach((win) => {
   const titleBar = win.querySelector(".title-bar");
-
   let isDragging = false;
   let offsetX = 0;
   let offsetY = 0;
@@ -517,23 +505,97 @@ document.querySelectorAll(".window").forEach((win) => {
   //drag
   document.addEventListener("mousemove", (e) => {
     if (!isDragging) return;
-
     if (win.classList.contains("maximized")) {
       win.classList.remove("maximized");
       const rect = win.getBoundingClientRect();
       offsetX = rect.width / 2;
       offsetY = 15;
     }
-    const newX = e.clientX - offsetX;
-    const newY = e.clientY - offsetY;
-
-    win.style.left = `${newX}px`;
-    win.style.top = `${newY}px`;
+    win.style.left = `${e.clientX - offsetX}px`;
+    win.style.top = `${e.clientY - offsetY}px`;
   });
 
   //release
   document.addEventListener("mouseup", () => {
     isDragging = false;
     win.classList.remove("dragging");
+  });
+});
+
+//drag icons
+//initial position
+desktopIconsList.forEach((icon, index) => {
+  icon.style.left = `${edgeOffset}px`;
+  icon.style.top = `${edgeOffset + index * gridHeight}px`;
+});
+
+desktopIconsList.forEach((icon) => {
+  let isDraggingIcon = false;
+  let startX, startY, initialLeft, initialTop;
+
+  icon.addEventListener("dblclick", (e) => {
+    e.preventDefault();
+    const baseName = icon.id.replace("icon-", "");
+    openWindow(`${baseName}-window`);
+  });
+
+  icon.addEventListener("mousedown", (e) => {
+    if (e.button !== 0) return;
+    isDraggingIcon = true;
+    icon.classList.add("dragging");
+    startX = e.clientX;
+    startY = e.clientY;
+    initialLeft = parseInt(icon.style.left, 10) || edgeOffset;
+    initialTop = parseInt(icon.style.top, 10) || edgeOffset;
+  });
+
+  document.addEventListener("mousemove", (e) => {
+    if (!isDraggingIcon) return;
+    const dx = e.clientX - startX;
+    const dy = e.clientY - startY;
+    icon.style.left = `${initialLeft + dx}px`;
+    icon.style.top = `${initialTop + dy}px`;
+  });
+
+  document.addEventListener("mouseup", (e) => {
+    if (!isDraggingIcon) return;
+    isDraggingIcon = false;
+    icon.classList.remove("dragging");
+
+    const currentLeft = parseInt(icon.style.left, 10);
+    const currentTop = parseInt(icon.style.top, 10);
+
+    //grid math
+    let snappedLeft =
+      Math.round((currentLeft - edgeOffset) / gridWidth) * gridWidth +
+      edgeOffset;
+    let snappedTop =
+      Math.round((currentTop - edgeOffset) / gridHeight) * gridHeight +
+      edgeOffset;
+
+    const maxLeft = window.innerWidth - gridWidth;
+    const maxTop = window.innerHeight - 40 - gridHeight;
+
+    snappedLeft = Math.max(edgeOffset, Math.min(snappedLeft, maxLeft));
+    snappedTop = Math.max(edgeOffset, Math.min(snappedTop, maxTop));
+
+    let isOccupied = false;
+    desktopIconsList.forEach((otherIcon) => {
+      if (otherIcon !== icon) {
+        const otherLeft = parseInt(otherIcon.style.left, 10);
+        const otherTop = parseInt(otherIcon.style.top, 10);
+        if (otherLeft === snappedLeft && otherTop === snappedTop) {
+          isOccupied = true;
+        }
+      }
+    });
+
+    if (isOccupied) {
+      snappedLeft = initialLeft;
+      snappedTop = initialTop;
+    }
+
+    icon.style.left = `${snappedLeft}px`;
+    icon.style.top = `${snappedTop}px`;
   });
 });

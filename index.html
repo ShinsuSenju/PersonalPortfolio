@@ -85,7 +85,7 @@
           </div>
         </div>
       </div>
-      <ul id="context-menu" role="menu" style="display: none">
+      <ul id="context-menu" role="menu" class="can-hover" style="display: none">
         <li role="menuitem" tabindex="0" aria-haspopup="true">
           View
           <ul role="menu" style="width: 150px">
@@ -147,6 +147,30 @@
           <a href="#menu">Personalize</a>
         </li>
       </ul>
+      <div id="icon-context-menu" class="context-menu">
+        <ul role="menu" class="can-hover" style="width: 200px">
+          <li role="menuitem" tabindex="0">Open</li>
+          <li role="menuitem" tabindex="0" aria-haspopup="true">
+            Open With
+            <ul role="menu">
+              <li role="menuitem"><a href="#menu">Notepad</a></li>
+            </ul>
+          </li>
+          <li role="menuitem" class="has-divider">
+            <a href="#menu">Cut</a>
+          </li>
+          <li role="menuitem" aria-disabled="true">
+            <a href="#menu">Copy</a>
+          </li>
+          <li role="menuitem" aria-disabled="true" class="has-divider">
+            <a href="#menu">Delete</a>
+          </li>
+          <li role="menuitem">
+            <img src="https://img.icons8.com/color/18/000000/monitor--v1.png" />
+            <a href="#menu">Properties</a>
+          </li>
+        </ul>
+      </div>
       <div class="desktop-icons">
         <div class="icon" data-app="computer">
           <img src="./images/computer-icon.ico" alt="My Computer" />

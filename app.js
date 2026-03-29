@@ -356,6 +356,29 @@ document.getElementById("menu-source").addEventListener("click", (e) => {
 //   closeContextMenu();
 // });
 
+const menuItemsWithSubmenus = document.querySelectorAll(
+  '[aria-haspopup="true"]',
+);
+
+//fix context menu near edge
+menuItemsWithSubmenus.forEach((item) => {
+  item.addEventListener("mouseenter", () => {
+    const submenu = item.querySelector('ul[role="menu"]');
+    if (!submenu) return;
+
+    submenu.style.left = "100%";
+    submenu.style.right = "auto";
+
+    const rect = submenu.getBoundingClientRect();
+    const windowWidth = window.innerWidth;
+
+    if (rect.right > windowWidth) {
+      submenu.style.left = "auto";
+      submenu.style.right = "100%";
+    }
+  });
+});
+
 //my projects from context menu
 const projectsBtn = document.getElementById("menu-projects");
 if (projectsBtn) {
@@ -598,4 +621,9 @@ desktopIconsList.forEach((icon) => {
     icon.style.left = `${snappedLeft}px`;
     icon.style.top = `${snappedTop}px`;
   });
+});
+
+const myComputer = document.getElementById("icon-computer");
+myComputer.addEventListener("dblclick", () => {
+  myComputer.classList.remove("window-closed");
 });

@@ -84,6 +84,218 @@
             </ul>
           </div>
         </div>
+        <div
+          class="window glass active window-closed"
+          id="computer-window"
+          style="
+            width: 850px;
+            height: 550px;
+            position: absolute;
+            top: 10%;
+            left: 10%;
+          "
+        >
+          <div class="title-bar" style="margin-bottom: 0; padding-bottom: 5px">
+            <div class="title-bar-text">Computer</div>
+            <div class="title-bar-controls">
+              <button aria-label="Minimize" class="titlebar-min"></button>
+              <button aria-label="Maximize" class="titlebar-max"></button>
+              <button aria-label="Close" class="titlebar-close"></button>
+            </div>
+          </div>
+
+          <div class="win7-glass-nav">
+            <div class="nav-buttons">
+              <div
+                class="win7-btn round back"
+                onclick="alert('these buttons don\'t work.')"
+              >
+                ➜
+              </div>
+              <div
+                class="win7-btn round"
+                onclick="alert('these buttons don\'t work')"
+              >
+                ➜
+              </div>
+            </div>
+            <div class="win7-addr">
+              <img
+                src="./images/computer-icon.ico"
+                width="16"
+                style="margin-right: 5px"
+              />
+              <label>Computer</label>
+            </div>
+            <div class="win7-search">
+              <input type="search" placeholder="Search Computer" />
+            </div>
+          </div>
+
+          <div
+            class="window-body"
+            style="
+              margin: 0;
+              padding: 0;
+              display: flex;
+              flex-direction: column;
+              height: calc(100% - 65px);
+            "
+          >
+            <div class="win7-toolbar">
+              <div
+                class="toolbar-item"
+                onclick="
+                  alert(
+                    'Error: Cannot organize Anurag\'s life right now. Try again after coffee.',
+                  )
+                "
+              >
+                Organize ▼
+              </div>
+              <div
+                class="toolbar-item"
+                onclick="
+                  alert(
+                    'System Properties:\nStorage: 100.00 PB\nRam: 8.00 PB\nGPU: RTX 10090 - 100.00 GB',
+                  )
+                "
+              >
+                System properties
+              </div>
+              <div
+                class="toolbar-item"
+                onclick="
+                  alert(
+                    'Uninstalling bugs...\nCleaning up Jira tickets...\nSuccess!',
+                  )
+                "
+              >
+                Uninstall or change a program
+              </div>
+              <div
+                class="toolbar-item"
+                onclick="alert('Mapping network drive to: NASA...')"
+              >
+                Map network drive
+              </div>
+              <div
+                class="toolbar-item"
+                onclick="
+                  alert('Opening Control Panel... Nope you can\'t do that ')
+                "
+              >
+                Open Control Panel
+              </div>
+            </div>
+
+            <div class="explorer-layout">
+              <div class="explorer-sidebar">
+                <div class="sidebar-section">
+                  <div class="sidebar-header">★ Favorites</div>
+                  <ul>
+                    <li onclick="alert('Opening Desktop...')">
+                      <img src="./images/computer-icon.ico" />
+                      Desktop
+                    </li>
+                    <li onclick="alert('Go Download Something first -_- .')">
+                      <img src="./images/downloads.ico" />
+                      Downloads
+                    </li>
+                    <li
+                      onclick="
+                        alert('i have not been to a lot of places lately :( ')
+                      "
+                    >
+                      <img src="./images/recent.ico" />
+                      Recent Places
+                    </li>
+                  </ul>
+                </div>
+
+                <div class="sidebar-section">
+                  <div class="sidebar-header">📚 Libraries</div>
+                  <ul>
+                    <li>
+                      <img src="./images/documents.ico" />
+                      Documents
+                    </li>
+                    <li onclick="alert('Playing Music')">
+                      <img src="./images/music.ico" />
+                      Music
+                    </li>
+                    <li onclick="alert('rickroll')">
+                      <img src="./images/video.ico" />
+                      Videos
+                    </li>
+                  </ul>
+                </div>
+
+                <div class="sidebar-section">
+                  <div class="sidebar-header active">
+                    <img src="./images/computer-icon.ico" width="16" /> Computer
+                  </div>
+                  <ul style="padding-left: 20px">
+                    <li><img src="./images/hdd2.ico" />Mind (C:)</li>
+                    <li><img src="./images/hdd1.ico" />Stomach (D:)</li>
+                    <li><img src="./images/hdd1.ico" />Wallet (E:)</li>
+                  </ul>
+                </div>
+              </div>
+
+              <div class="win7-container" style="flex: 1">
+                <div class="win7-headline">Hard Disk Drives (3)</div>
+                <div class="win7-devices">
+                  <div class="win7-device disk-os">
+                    <div class="name"><label>Mind (C:)</label></div>
+                    <div class="storage-bar red-bar">
+                      <div style="width: 99%"></div>
+                    </div>
+                    <div class="storage-txt">1.2 GB free of 100 GB</div>
+                  </div>
+                  <div class="win7-device disk-data">
+                    <div class="name">
+                      <label>Stomach (D:)</label>
+                    </div>
+                    <div class="storage-bar">
+                      <div style="width: 55%"></div>
+                    </div>
+                    <div class="storage-txt">55.0 GB free of 100.0 GB</div>
+                  </div>
+                </div>
+
+                <div class="win7-headline" style="margin-top: 20px">
+                  Devices with Removable Storage (2)
+                </div>
+                <div class="win7-devices">
+                  <div class="win7-device disk-cd">
+                    <div class="name">DVD RW Drive (F:)</div>
+                  </div>
+                  <div class="win7-device disk-usb">
+                    <div class="name"><label>Wallet (G:)</label></div>
+                    <div class="storage-bar">
+                      <div style="width: 5%"></div>
+                    </div>
+                    <div class="storage-txt">24.0 GB free of 25.0 GB</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="explorer-footer">
+              <img
+                src="./images/computer-icon.ico"
+                width="32"
+                style="margin-right: 15px"
+              />
+              <div class="footer-details">
+                <strong>Guest</strong><br />
+                Processor: Intel(R) Core(TM)<br />
+                Memory: 64.00 Kb
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
       <ul id="context-menu" role="menu" class="can-hover" style="display: none">
         <li role="menuitem" tabindex="0" aria-haspopup="true">
@@ -131,32 +343,35 @@
         </li>
 
         <li role="menuitem" id="menu-source">
-          <img src="https://img.icons8.com/color/18/000000/code.png" />
+          <img src="./images/cmd.png" width="20px" />
           <a href="#menu">View Source Code</a>
         </li>
         <li role="menuitem" id="menu-projects">
-          <img
-            src="https://img.icons8.com/color/18/000000/folder-invoices--v1.png"
-          />
+          <img src="./images/folder-invoices--v1.png" />
           <a href="#menu">My Projects</a>
         </li>
         <li role="menuitem" id="menu-personalize">
-          <img
-            src="https://img.icons8.com/color/18/000000/remote-desktop.png"
-          />
+          <img src="./images/remote-desktop.png" />
           <a href="#menu">Personalize</a>
         </li>
       </ul>
       <div id="icon-context-menu" class="context-menu">
         <ul role="menu" class="can-hover" style="width: 200px">
-          <li role="menuitem" tabindex="0">Open</li>
-          <li role="menuitem" tabindex="0" aria-haspopup="true">
+          <li id="menu-open" role="menuitem"><a href="#menu">Open</a></li>
+          <li
+            role="menuitem"
+            tabindex="0"
+            aria-haspopup="true"
+            class="has-divider"
+          >
             Open With
             <ul role="menu">
-              <li role="menuitem"><a href="#menu">Notepad</a></li>
+              <li role="menuitem" aria-disabled="true">
+                <a href="#menu">Notepad</a>
+              </li>
             </ul>
           </li>
-          <li role="menuitem" class="has-divider">
+          <li role="menuitem" aria-disabled="true">
             <a href="#menu">Cut</a>
           </li>
           <li role="menuitem" aria-disabled="true">
@@ -165,22 +380,22 @@
           <li role="menuitem" aria-disabled="true" class="has-divider">
             <a href="#menu">Delete</a>
           </li>
-          <li role="menuitem">
+          <li role="menuitem" aria-disabled="true">
             <img src="https://img.icons8.com/color/18/000000/monitor--v1.png" />
             <a href="#menu">Properties</a>
           </li>
         </ul>
       </div>
       <div class="desktop-icons">
-        <div class="icon" data-app="computer">
+        <div class="icon" id="icon-computer">
           <img src="./images/computer-icon.ico" alt="My Computer" />
           <span>My Computer</span>
         </div>
-        <div class="icon" data-app="recycle">
+        <div class="icon" id="icon-recycle">
           <img src="./images/recycle-icon.ico" alt="Recycle Bin" />
           <span>Recycle Bin</span>
         </div>
-        <div class="icon" data-app="usage">
+        <div class="icon" id="icon-usage">
           <img src="./images/readme.ico" alt="Text File" />
           <span>usage.txt</span>
         </div>
